@@ -1,3 +1,4 @@
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -23,6 +24,20 @@ public class Player : MonoBehaviour
         // Apply the velocity to the Rigidbody2D
         body.linearVelocity = velocity;
 
+        FlipForDirection(moveInput);
+
         Debug.Log(body.linearVelocity);
+    }
+
+    private void FlipForDirection(float moveInput)
+    {
+        if (moveInput > 0)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        else if (moveInput < 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
     }
 }
