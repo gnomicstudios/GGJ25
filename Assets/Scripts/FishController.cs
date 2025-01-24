@@ -1,8 +1,9 @@
+using System.Drawing;
 using UnityEngine;
 
 public class FishController : MonoBehaviour
 {
-    public Vector2 tankBounds; // The boundaries of the tank (x, y dimensions)
+    public Rect tankBounds; // The boundaries of the tank (x1, y2, x2, y2 dimensions)
     public float swimSpeed = 2f; // Speed at which the fish swims
     public float directionChangeInterval = 3f; // Time interval for changing direction
 
@@ -38,15 +39,14 @@ public class FishController : MonoBehaviour
     {
         Vector2 position = transform.position;
 
-        if (position.x < -tankBounds.x / 2 || position.x > tankBounds.x / 2 ||
-            position.y < -tankBounds.y / 2 || position.y > tankBounds.y / 2)
+        if (tankBounds.Contains(position) == false)
         {
             // Reverse direction when hitting the bounds
             targetDirection = -targetDirection;
 
             // Clamp the position to ensure it stays within bounds
-            position.x = Mathf.Clamp(position.x, -tankBounds.x / 2, tankBounds.x / 2);
-            position.y = Mathf.Clamp(position.y, -tankBounds.y / 2, tankBounds.y / 2);
+            position.x = Mathf.Clamp(position.x, tankBounds.x, tankBounds.x + tankBounds.width);
+            position.y = Mathf.Clamp(position.y, tankBounds.y - tankBounds.height, tankBounds.y);
             transform.position = position;
         }
     }
