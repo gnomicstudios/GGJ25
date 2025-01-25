@@ -15,6 +15,7 @@ public class BubbleController : MonoBehaviour
     private Player player;
     private CircleCollider2D circleCollider;
     private SpriteRenderer spriteRenderer;
+    private Color originalColor;
     
 
     // Calculate the area using the radius
@@ -32,13 +33,23 @@ public class BubbleController : MonoBehaviour
         circleCollider = GetComponentInChildren<CircleCollider2D>();
         player = FindFirstObjectByType<Player>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        originalColor = spriteRenderer.color;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(bubbleBlueTime > 0f)
+        {
+            bubbleBlueTime += Time.deltaTime;
+            if(bubbleBlueTime >= 0.4f)
+            {
+                spriteRenderer.color = originalColor;
+            }
+        }
     }
 
+    private float bubbleBlueTime = 0.0f;
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // if another bubble and this bubble is blowing up, stop blowing up
@@ -48,8 +59,16 @@ public class BubbleController : MonoBehaviour
             if (otherBubble != null)
             {
                 player.StopBlowingBubble();
+                BubbleOnBubbleCollision();
+                otherBubble.BubbleOnBubbleCollision();
             }
         }
+    }
+
+    public void BubbleOnBubbleCollision()
+    {
+        spriteRenderer.color = new Color(0f, 0.5f, 0.5f, 0.5f);
+        bubbleBlueTime = 0.01f;
     }
 
     public void FinishBlowingUp()
