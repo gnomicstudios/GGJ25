@@ -3,15 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; }
+
     public int initialBubbles = 20;
     public int initialLives = 5;
 
     public FishController[] enemyPrefabs;
 
     internal GameState state = GameState.Start;
+    private float timeAtStateChange = 0.0f;
 
     private List<FishController> enemyObjects = new List<FishController>();
     private List<BubbleController> bubbleObjects = new List<BubbleController>();
@@ -25,13 +29,9 @@ public class GameManager : MonoBehaviour
 
     private Player player;
 
-    public float CoverageProportion {
-        get {
-            return Mathf.Min(1.0f, coverage / coverageRequired);
-        }
-    }
+    private HudController hud;
 
-    private float CoveragePropotionLockedIn {
+    public float CoverageProportion {
         get {
             return Mathf.Min(1.0f, coverage / coverageRequired);
         }
@@ -40,7 +40,10 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         Debug.Log("GameManager Awake");
-        //DontDestroyOnLoad(this);
+        if (Instance != null) {
+            Debug.LogError("GameManager already exists");
+        }
+        Instance = this;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -49,13 +52,22 @@ public class GameManager : MonoBehaviour
         Debug.Log("GameManager Start");
 
         player = FindFirstObjectByType<Player>();
+        hud = FindFirstObjectByType<HudController>();
+        SetState(GameState.Start);
 
-        state = GameState.Start;
-        // TODO waiting for player to start 
-        
-        state = GameState.Playing;
+        // Wait for player to start (in Update)
+        hud.gameStartScreen.SlideIn();
+    }
 
-        ResetLevel();
+    private void SetState(GameState newState)
+    {
+        state = newState;
+        timeAtStateChange = Time.time;
+    }
+
+    float TimeSinceStateChange
+    {
+        get { return Time.time - timeAtStateChange; }
     }
 
     void ResetLevel() {
@@ -64,7 +76,7 @@ public class GameManager : MonoBehaviour
         level++;
         bubbles = initialBubbles;
         coverage = 0.0f;
-        state = GameState.Playing;
+        SetState(GameState.Playing);
         player.Respawn();
 
         for (var i = 0; i < enemyObjects.Count; i++) {
@@ -92,32 +104,45 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    IEnumerator ResetLevelDelayed() {
+        yield return new WaitForSeconds(1f);
+        ResetLevel();
+    }
+
     // Update is called once per frame
     void Update()
     {
+        if (state == GameState.Start) {
+            if (Input.GetKeyDown(KeyCode.Space) && TimeSinceStateChange > 1f)
+            {
+                hud.gameStartScreen.SlideOut();
+                StartCoroutine("ResetLevelDelayed");
+            }
+        }
+        else if (state == GameState.GameOver)
+        {
+            if (Input.GetKeyDown(KeyCode.Space) && TimeSinceStateChange > 3f)
+            {
+                hud.gameOverScreen.SlideOut();
+                StartCoroutine("ReloadGameDelayed");
+            }
+        }
     }
 
     private void LevelComplete()
     {
         Debug.Log("GameManager LevelComplete");
 
-        state = GameState.LevelComplete;
-
-        StartCoroutine("ResetLevelDelayed");
+        SetState(GameState.LevelComplete);
+        hud.levelCompleteScreen.SlideIn();
+        StartCoroutine("NextLevelDelayed");
     }
 
-    private IEnumerator ResetLevelDelayed() {
-        yield return new WaitForSeconds(2);
-
+    private IEnumerator NextLevelDelayed() {
+        yield return new WaitForSeconds(3);
+        hud.levelCompleteScreen.SlideOut();
+        yield return new WaitForSeconds(1);
         ResetLevel();
-    }
-
-    private BubbleController activeBubble;
-
-    // Set whilst the player is blowing up a bubble
-    public void SetActiveBubble(BubbleController bubble)
-    {
-        activeBubble = bubble; 
     }
 
     public void BubbleCreated(BubbleController bubble)
@@ -126,9 +151,10 @@ public class GameManager : MonoBehaviour
         coverage += bubble.Area;
         bubbles--;
         if (CoverageProportion >= 1f) {
-            state = GameState.LevelComplete;
+            SetState(GameState.LevelComplete);
             LevelComplete();
         } else if (bubbles <= 0) {
+            SetState(GameState.GameOver);
             GameOver();
         }
     }
@@ -152,14 +178,13 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("GameManager GameOver");
 
-        state = GameState.GameOver;
+        hud.gameOverScreen.SlideIn();
+        SetState(GameState.GameOver);
         player.Die();
-
-        StartCoroutine("ReloadGameDelayed");
     }
 
     private IEnumerator ReloadGameDelayed() {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1f);
         SceneManager.LoadScene("MainScene");
     }
 }

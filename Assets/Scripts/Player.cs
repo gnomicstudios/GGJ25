@@ -22,17 +22,23 @@ public class Player : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         activeBubbleSpring = GetComponent<SpringJoint2D>();
         activeBubbleSpring.enabled = false;
+        body.gravityScale = 0.2f;
     }
 
     private void Update()
     {
-        float moveX = Input.GetAxis("Horizontal");
-        float moveY = Input.GetAxis("Vertical");
+        if (GameManager.Instance.state == GameState.Playing )
+        {
+            float moveX = Input.GetAxis("Horizontal");
+            float moveY = Input.GetAxis("Vertical");
 
-        MovePlayer(moveX, moveY);
-        FlipForDirection(moveX);
+            MovePlayer(moveX, moveY);
+            FlipForDirection(moveX);
 
-        BlowBubble();
+            UpdateActiveBubble();
+        }
+
+        animator.SetBool("isBlowing", activeBubble != null);
     }
 
     private void MovePlayer(float moveX, float moveY)
@@ -60,7 +66,7 @@ public class Player : MonoBehaviour
     // If the player is not holding a bubble, creates a new one.
     // If the player is holding a bubble, inflates it.
     // If the player releases the bubble, the bubble will then collide with the player.
-    private void BlowBubble()
+    private void UpdateActiveBubble()
     {
         if (activeBubble == null && Input.GetKeyDown(KeyCode.Space))
         {
@@ -84,7 +90,6 @@ public class Player : MonoBehaviour
                 StopBlowingBubble();
             }
         }
-        animator.SetBool("isBlowing", activeBubble != null);
     }
 
     public void StopBlowingBubble()
@@ -110,7 +115,9 @@ public class Player : MonoBehaviour
 
     public void Die()
     {
+        
         animator.SetBool("isDead", true);
+        body.gravityScale = -0.5f;
     }
 
     public void Respawn()
@@ -118,8 +125,8 @@ public class Player : MonoBehaviour
         // Null check in case this is the first run and player is not yet initialized
         if (animator != null)
         {
-        animator.SetBool("isDead", false);
+            animator.SetBool("isDead", false);
         }
-        transform.position = new Vector3(0, 0.5f, 0);
+        transform.position = new Vector3(0, -4.5f, 0);
     }
 }

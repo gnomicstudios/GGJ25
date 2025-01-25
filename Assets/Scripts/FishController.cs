@@ -121,7 +121,7 @@ public class FishController : MonoBehaviour
     {
         return new Vector2(
             Random.Range(-4f, 4f),
-            Random.Range(0f, 9f)
-        ).normalized;
+            Random.Range(1f, 4f)
+        );
     }
 }
