@@ -102,7 +102,7 @@ public class FishController : MonoBehaviour
         }
 
         // check not too far, i.e. fish sees the bubble
-        if (Vector2.Distance(activeBubble.transform.position, transform.position) > 5f)
+        if (Vector2.Distance(activeBubble.transform.position, transform.position) > 7f)
         {
             targetDirection = Vector2.zero;
             return false;
