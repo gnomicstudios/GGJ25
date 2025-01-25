@@ -1,30 +1,26 @@
 using System.Drawing;
+using Mono.Cecil.Cil;
 using UnityEngine;
 
 public class FishController : MonoBehaviour
 {
-    public Rect tankBounds; // The boundaries of the tank (x1, y2, x2, y2 dimensions)
     public float swimSpeed = 2f; // Speed at which the fish swims
     public float directionChangeInterval = 3f; // Time interval for changing direction
 
+    private Rigidbody2D rb; // Reference to the fish's rigidbody
     private Vector2 targetDirection; // The direction the fish is currently swimming
     private float directionChangeTimer; // Timer for changing direction
 
     void Start()
     {
         // Set an initial random direction
+        rb = GetComponent<Rigidbody2D>();
         targetDirection = GetRandomDirection();
         directionChangeTimer = directionChangeInterval;
     }
 
     void Update()
     {
-        // Move the fish in the current direction
-        transform.Translate(targetDirection * swimSpeed * Time.deltaTime, Space.World);
-
-        // Check if the fish is close to the tank bounds and adjust direction
-        StayWithinBounds();
-
         // Update the timer and change direction if needed
         directionChangeTimer -= Time.deltaTime;
         if (directionChangeTimer <= 0f)
@@ -32,24 +28,29 @@ public class FishController : MonoBehaviour
             targetDirection = GetRandomDirection();
             directionChangeTimer = directionChangeInterval;
         }
-    }
 
-    // Ensure the fish stays within the tank bounds
-    private void StayWithinBounds()
-    {
-        Vector2 position = transform.position;
+        // Apply velocity to the Rigidbody
+        rb.linearVelocity = targetDirection * swimSpeed;
 
-        if (tankBounds.Contains(position) == false)
+        // Flip the fish sprite based on the direction it is swimming
+        if (targetDirection.x > 0)
         {
-            // Reverse direction when hitting the bounds
-            targetDirection = -targetDirection;
-
-            // Clamp the position to ensure it stays within bounds
-            position.x = Mathf.Clamp(position.x, tankBounds.x, tankBounds.x + tankBounds.width);
-            position.y = Mathf.Clamp(position.y, tankBounds.y - tankBounds.height, tankBounds.y);
-            transform.position = position;
+            transform.localScale = new Vector3(1, 1, 1); // Facing right
+        }
+        else if (targetDirection.x < 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1); // Facing left
         }
     }
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // Reverse direction upon collision
+        Debug.Log("Collision detected with: " + collision.gameObject.name);
+        targetDirection = -targetDirection;
+    }
+
 
     // Generate a random direction for the fish to swim
     private Vector2 GetRandomDirection()
