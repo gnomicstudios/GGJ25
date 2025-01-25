@@ -79,12 +79,19 @@ public class Player : MonoBehaviour
             }
             else if (Input.GetKeyUp(KeyCode.Space))
             {
-                Physics2D.IgnoreCollision(activeBubble.GetComponent<Collider2D>(), this.GetComponent<Collider2D>(), false);
-                activeBubble.FinishBlowingUp();
-                activeBubble = null;
-                activeBubbleSpring.enabled = false;
-                activeBubbleSpring.connectedBody = null;
+                StopBlowingBubble();
             }
         }
+    }
+
+    public void StopBlowingBubble()
+    {
+        if(activeBubble == null) return;
+
+        Physics2D.IgnoreCollision(activeBubble.GetComponent<Collider2D>(), this.GetComponent<Collider2D>(), false);
+        activeBubble.FinishBlowingUp();
+        activeBubble = null;
+        activeBubbleSpring.enabled = false;
+        activeBubbleSpring.connectedBody = null;
     }
 }

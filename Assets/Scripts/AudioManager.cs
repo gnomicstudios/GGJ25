@@ -9,7 +9,6 @@ public class AudioManager : MonoBehaviour
     public AudioClip BubblePop;
     public AudioClip BubbleDestoryed;
 
-
     static AudioManager Instance
     {
         get
