@@ -24,13 +24,13 @@ public class FishController : MonoBehaviour
 
     void Update()
     {
-        // // Update the timer and change direction if needed
-        // directionChangeTimer -= Time.deltaTime;
-        // if (directionChangeTimer <= 0f)
-        // {
-        //     targetDirection = GetRandomDirection();
-        //     directionChangeTimer = directionChangeInterval;
-        // }
+        // Update the timer and change direction if needed
+        directionChangeTimer -= Time.deltaTime;
+        if (directionChangeTimer <= 0f)
+        {
+            targetDirection = GetRandomDirection();
+            directionChangeTimer = directionChangeInterval;
+        }
 
         // Apply velocity to the Rigidbody
         rb.linearVelocity = targetDirection * swimSpeed;
