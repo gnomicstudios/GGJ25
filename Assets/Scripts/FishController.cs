@@ -92,23 +92,23 @@ public class FishController : MonoBehaviour
         ).normalized;
     }
 
-    private bool TryGetBubbleDirection(out Vector2 targetDirection)
+    private bool TryGetBubbleDirection(out Vector2 direction)
     {
         var activeBubble = player.GetActiveBubble();
         if (activeBubble == null)
         {
-            targetDirection = Vector2.zero;
+            direction = Vector2.zero;
             return false;
         }
 
         // check not too far, i.e. fish sees the bubble
         if (Vector2.Distance(activeBubble.transform.position, transform.position) > 7f)
         {
-            targetDirection = Vector2.zero;
+            direction = Vector2.zero;
             return false;
         }
 
-        targetDirection = (activeBubble.transform.position - transform.position).normalized;
+        direction = (activeBubble.transform.position - transform.position).normalized;
         return true;
     }
 
