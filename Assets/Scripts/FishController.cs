@@ -25,7 +25,7 @@ public class FishController : MonoBehaviour
         // Set an initial random direction
         rb = GetComponent<Rigidbody2D>();
         targetDirection = GetRandomDirection();
-        directionChangeTimer = directionChangeInterval;
+        directionChangeTimer = directionChangeInterval * 0.2f;
     }
 
     bool isTargettingBubble = false;
@@ -51,8 +51,9 @@ public class FishController : MonoBehaviour
             directionChangeTimer = directionChangeInterval;
         }
 
-        rb.AddForce(targetDirection * Acceleration);
-        rb.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity, MaxSpeed);
+        // rb.AddForce(targetDirection * Acceleration);
+        // rb.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity, MaxSpeed);
+        rb.linearVelocity = targetDirection * MaxSpeed;
 
         // Flip the fish sprite based on the direction it is swimming
         if (targetDirection.x > 0)
@@ -63,6 +64,10 @@ public class FishController : MonoBehaviour
         {
             transform.localScale = new Vector3(-1, 1, 1); // Facing left
         }
+
+        // // Rotate towards the target direction
+        // float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
+        // transform.rotation = Quaternion.Euler(0f, 0f, angle);
     }
 
 
@@ -77,7 +82,7 @@ public class FishController : MonoBehaviour
         else    
         {
             // Reverse direction upon collision and take off some speed
-            rb.linearVelocity = -(rb.linearVelocity * 0.75f);
+            //rb.linearVelocity = -(rb.linearVelocity * 0.75f);
             targetDirection = -targetDirection;
         }
     }
@@ -101,12 +106,12 @@ public class FishController : MonoBehaviour
             return false;
         }
 
-        // check not too far, i.e. fish sees the bubble
-        if (Vector2.Distance(activeBubble.transform.position, transform.position) > 7f)
-        {
-            direction = Vector2.zero;
-            return false;
-        }
+        // // check not too far, i.e. fish sees the bubble
+        // if (Vector2.Distance(activeBubble.transform.position, transform.position) > 7f)
+        // {
+        //     direction = Vector2.zero;
+        //     return false;
+        // }
 
         direction = (activeBubble.transform.position - transform.position).normalized;
         return true;
