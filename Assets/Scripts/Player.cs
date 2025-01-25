@@ -6,18 +6,20 @@ public class Player : MonoBehaviour
 {
     public float speed = 5f; // Speed of the player movement
 
-    public Rigidbody2D body;
-
     public GameObject bubblePrefab;
 
     private BubbleController activeBubble;
 
     private SpringJoint2D activeBubbleSpring;
 
+
+    internal Rigidbody2D body;
+    internal Animator animator;
+
     private void Start()
     {
-        // Get the Rigidbody2D component attached to the player
         body = GetComponent<Rigidbody2D>();
+        animator = GetComponentInChildren<Animator>();
         activeBubbleSpring = GetComponent<SpringJoint2D>();
         activeBubbleSpring.enabled = false;
     }
@@ -82,6 +84,7 @@ public class Player : MonoBehaviour
                 StopBlowingBubble();
             }
         }
+        animator.SetBool("isBlowing", activeBubble != null);
     }
 
     public void StopBlowingBubble()
@@ -98,5 +101,25 @@ public class Player : MonoBehaviour
     public BubbleController GetActiveBubble()
     {
         return activeBubble;
-    }   
+    }
+
+    public void Hit()
+    {
+        animator.SetTrigger("Hit");
+    }
+
+    public void Die()
+    {
+        animator.SetBool("isDead", true);
+    }
+
+    public void Respawn()
+    {
+        // Null check in case this is the first run and player is not yet initialized
+        if (animator != null)
+        {
+        animator.SetBool("isDead", false);
+        }
+        transform.position = new Vector3(0, 0.5f, 0);
+    }
 }

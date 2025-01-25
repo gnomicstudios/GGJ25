@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
 
     private float coverage = 0.0f;
 
+    private Player player;
+
     public float CoverageProportion {
         get {
             return Mathf.Min(1.0f, coverage / coverageRequired);
@@ -46,6 +48,8 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("GameManager Start");
 
+        player = FindFirstObjectByType<Player>();
+
         state = GameState.Start;
         // TODO waiting for player to start 
         
@@ -61,14 +65,23 @@ public class GameManager : MonoBehaviour
         bubbles = initialBubbles;
         coverage = 0.0f;
         state = GameState.Playing;
+        player.Respawn();
 
         for (var i = 0; i < enemyObjects.Count; i++) {
-            Destroy(enemyObjects[i].gameObject);
+            try {
+                Destroy(enemyObjects[i].gameObject);
+            } catch (Exception e) {
+                Debug.LogError("Error destroying enemy object: " + e.Message);
+            }
         }
         enemyObjects.Clear();
 
         for (var i = 0; i < bubbleObjects.Count; i++) {
-            Destroy(bubbleObjects[i].gameObject);
+            try {
+                Destroy(bubbleObjects[i].gameObject);
+            } catch (Exception e) {
+                Debug.LogError("Error destroying bubble object: " + e.Message);
+            }
         }
         bubbleObjects.Clear();
 
@@ -129,6 +142,10 @@ public class GameManager : MonoBehaviour
         {
             GameOver();
         }
+        else
+        {
+            player.Hit();
+        }
     }
 
     private void GameOver()
@@ -136,6 +153,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("GameManager GameOver");
 
         state = GameState.GameOver;
+        player.Die();
 
         StartCoroutine("ReloadGameDelayed");
     }
