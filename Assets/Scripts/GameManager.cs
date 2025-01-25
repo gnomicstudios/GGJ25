@@ -18,16 +18,35 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private float CoveragePropotionLockedIn {
+        get {
+            return Mathf.Min(1.0f, coverage / coverageRequired);
+        }
+    }
+
+    void Awake()
+    {
+        Debug.Log("GameManager Awake");
+        DontDestroyOnLoad(this);
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        Debug.Log("GameManager Start");
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (CoveragePropotionLockedIn > 1f) {
+            LevelComplete();
+        }
+    }
+
+    private void LevelComplete()
+    {
+        Debug.Log("GameManager LevelComplete");
     }
 
     // Set whilst the player is blowing up a bubble

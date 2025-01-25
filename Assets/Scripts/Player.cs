@@ -12,10 +12,14 @@ public class Player : MonoBehaviour
 
     private BubbleController activeBubble;
 
+    private SpringJoint2D activeBubbleSpring;
+
     private void Start()
     {
         // Get the Rigidbody2D component attached to the player
         body = GetComponent<Rigidbody2D>();
+        activeBubbleSpring = GetComponent<SpringJoint2D>();
+        activeBubbleSpring.enabled = false;
     }
 
     private void Update()
@@ -60,16 +64,26 @@ public class Player : MonoBehaviour
         {
             activeBubble = Instantiate(bubblePrefab, transform.position, Quaternion.identity).GetComponent<BubbleController>();
             activeBubble.transform.localScale = new Vector3(activeBubble.initialScale, activeBubble.initialScale, activeBubble.initialScale);
+            activeBubbleSpring.connectedBody = activeBubble.GetComponent<Rigidbody2D>();
+            activeBubbleSpring.enabled = true;
             Physics2D.IgnoreCollision(activeBubble.GetComponent<Collider2D>(), this.GetComponent<Collider2D>(), true);
-        } else if (activeBubble != null) {
-            if (Input.GetKey(KeyCode.Space)) {
+        }
+        else if (activeBubble != null)
+        {
+            if (Input.GetKey(KeyCode.Space))
+            {
                 var scale = activeBubble.transform.localScale.x + activeBubble.growSpeed * Time.deltaTime;
                 activeBubble.transform.localScale = new Vector3(scale, scale, scale);
-                activeBubble.transform.position = transform.position;
-            } else if (Input.GetKeyUp(KeyCode.Space)) {
+                // Connected by spring now
+                //activeBubble.transform.position = transform.position;
+            }
+            else if (Input.GetKeyUp(KeyCode.Space))
+            {
                 Physics2D.IgnoreCollision(activeBubble.GetComponent<Collider2D>(), this.GetComponent<Collider2D>(), false);
                 activeBubble.FinishBlowingUp();
                 activeBubble = null;
+                activeBubbleSpring.enabled = false;
+                activeBubbleSpring.connectedBody = null;
             }
         }
     }
