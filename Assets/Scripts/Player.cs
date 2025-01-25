@@ -27,17 +27,18 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.Instance.state != GameState.Playing ) {
-            return;
+        if (GameManager.Instance.state == GameState.Playing )
+        {
+            float moveX = Input.GetAxis("Horizontal");
+            float moveY = Input.GetAxis("Vertical");
+
+            MovePlayer(moveX, moveY);
+            FlipForDirection(moveX);
+
+            UpdateActiveBubble();
         }
 
-        float moveX = Input.GetAxis("Horizontal");
-        float moveY = Input.GetAxis("Vertical");
-
-        MovePlayer(moveX, moveY);
-        FlipForDirection(moveX);
-
-        BlowBubble();
+        animator.SetBool("isBlowing", activeBubble != null);
     }
 
     private void MovePlayer(float moveX, float moveY)
@@ -65,7 +66,7 @@ public class Player : MonoBehaviour
     // If the player is not holding a bubble, creates a new one.
     // If the player is holding a bubble, inflates it.
     // If the player releases the bubble, the bubble will then collide with the player.
-    private void BlowBubble()
+    private void UpdateActiveBubble()
     {
         if (activeBubble == null && Input.GetKeyDown(KeyCode.Space))
         {
@@ -89,7 +90,6 @@ public class Player : MonoBehaviour
                 StopBlowingBubble();
             }
         }
-        animator.SetBool("isBlowing", activeBubble != null);
     }
 
     public void StopBlowingBubble()
@@ -115,6 +115,7 @@ public class Player : MonoBehaviour
 
     public void Die()
     {
+        
         animator.SetBool("isDead", true);
         body.gravityScale = -0.5f;
     }

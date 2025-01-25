@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -103,14 +104,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    IEnumerator ResetLevelDelayed() {
+        yield return new WaitForSeconds(1f);
+        ResetLevel();
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (state == GameState.Start) {
             if (Input.GetKeyDown(KeyCode.Space) && TimeSinceStateChange > 1f)
             {
-                ResetLevel();
                 hud.gameStartScreen.SlideOut();
+                StartCoroutine("ResetLevelDelayed");
             }
         }
         else if (state == GameState.GameOver)
@@ -129,10 +135,10 @@ public class GameManager : MonoBehaviour
 
         SetState(GameState.LevelComplete);
         hud.levelCompleteScreen.SlideIn();
-        StartCoroutine("ResetLevelDelayed");
+        StartCoroutine("NextLevelDelayed");
     }
 
-    private IEnumerator ResetLevelDelayed() {
+    private IEnumerator NextLevelDelayed() {
         yield return new WaitForSeconds(3);
         hud.levelCompleteScreen.SlideOut();
         yield return new WaitForSeconds(1);

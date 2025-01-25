@@ -112,8 +112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3893b0e4baa1d40a4b6a556abe7b45ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsBlowingUp: 1
-  growSpeed: 0.7
+  growSpeed: 1
   initialScale: 0.8
 --- !u!20 &3307599417325968504
 Camera:
