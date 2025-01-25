@@ -28,7 +28,7 @@ public class BubbleController : MonoBehaviour
         float radius = circleCollider.radius;
         float area = Mathf.PI * Mathf.Pow(radius, 2);
 
-        game.BubbleCreated();
+        game.BubbleCreated(area);
 
     }
 
