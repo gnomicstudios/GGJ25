@@ -46,3 +46,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bubbles: 20
   lives: 5
+  level: 1
+  coverageRequired: 10

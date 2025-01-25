@@ -1,12 +1,22 @@
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public int bubbles = 20;
     public int lives = 5;
-    public float coverage = 0.0f;
+    public int level = 1;
+    public float coverageRequired = 20.0f;
 
-    private float totalArea = 0.0f;
+    private float coverage = 0.0f;
+
+    internal float coverageExtra = 0.0f;
+
+    public float CoverageProportion {
+        get {
+            return Mathf.Min(1.0f, (coverage + coverageExtra) / coverageRequired);
+        }
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -20,6 +30,12 @@ public class GameManager : MonoBehaviour
         
     }
 
+    // Set whilst the player is blowing up a bubble
+    public void SetBubbleBlowing(float area)
+    {
+        coverageExtra = area; 
+    }
+
     public void BubbleCreated(float area)
     {
         coverage += area;
@@ -28,6 +44,7 @@ public class GameManager : MonoBehaviour
 
     public void BubblePopped()
     {
+        coverageExtra = 0f;
         lives--;
         if (lives <= 0)
         {

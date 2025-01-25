@@ -59,10 +59,11 @@ public class Player : MonoBehaviour
         if (activeBubble == null && Input.GetKeyDown(KeyCode.Space))
         {
             activeBubble = Instantiate(bubblePrefab, transform.position, Quaternion.identity).GetComponent<BubbleController>();
+            activeBubble.transform.localScale = new Vector3(activeBubble.initialScale, activeBubble.initialScale, activeBubble.initialScale);
             Physics2D.IgnoreCollision(activeBubble.GetComponent<Collider2D>(), this.GetComponent<Collider2D>(), true);
         } else if (activeBubble != null) {
             if (Input.GetKey(KeyCode.Space)) {
-                var scale = activeBubble.transform.localScale.x + 1f * Time.deltaTime;
+                var scale = activeBubble.transform.localScale.x + activeBubble.growSpeed * Time.deltaTime;
                 activeBubble.transform.localScale = new Vector3(scale, scale, scale);
                 activeBubble.transform.position = transform.position;
             } else if (Input.GetKeyUp(KeyCode.Space)) {
