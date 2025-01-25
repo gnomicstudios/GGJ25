@@ -9,6 +9,7 @@ public class BubbleController : MonoBehaviour
     private GameManager game;
     private Player player;
     private CircleCollider2D circleCollider;
+    private SpriteRenderer spriteRenderer;
 
     // Calculate the area using the radius
     public float Area {
@@ -24,6 +25,7 @@ public class BubbleController : MonoBehaviour
         game = FindFirstObjectByType<GameManager>();
         circleCollider = GetComponent<CircleCollider2D>();
         player = FindFirstObjectByType<Player>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -67,7 +69,9 @@ public class BubbleController : MonoBehaviour
 
         game.BubblePopped();
         AudioManager.PlayBubbleDestroyed();
+        circleCollider.enabled = false;
+        spriteRenderer.color = new Color(1, 0, 0, 0.5f);
         
-        Destroy(gameObject);
+        Destroy(gameObject, 0.12f);
     }
 }

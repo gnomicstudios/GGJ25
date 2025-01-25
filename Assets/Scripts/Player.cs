@@ -94,4 +94,9 @@ public class Player : MonoBehaviour
         activeBubbleSpring.enabled = false;
         activeBubbleSpring.connectedBody = null;
     }
+
+    public BubbleController GetActiveBubble()
+    {
+        return activeBubble;
+    }   
 }
