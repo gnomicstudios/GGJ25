@@ -77,7 +77,7 @@ public class FishController : MonoBehaviour
         else    
         {
             // Reverse direction upon collision and take off some speed
-            rb.linearVelocity = -(rb.linearVelocity * 0.5f);
+            rb.linearVelocity = -(rb.linearVelocity * 0.75f);
             targetDirection = -targetDirection;
         }
     }
