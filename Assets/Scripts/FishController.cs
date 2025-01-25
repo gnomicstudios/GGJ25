@@ -56,13 +56,22 @@ public class FishController : MonoBehaviour
         rb.linearVelocity = targetDirection * MaxSpeed;
 
         // Flip the fish sprite based on the direction it is swimming
+        var scale = transform.localScale;
         if (targetDirection.x > 0)
         {
-            transform.localScale = new Vector3(1, 1, 1); // Facing right
+            // Facing RIGHT
+            if (scale.x < 0f) {
+                scale.x *= -1f;
+                transform.localScale = scale;
+            }
         }
         else if (targetDirection.x < 0)
         {
-            transform.localScale = new Vector3(-1, 1, 1); // Facing left
+            // Facing LEFT
+            if (scale.x > 0f) {
+                scale.x *= -1f;
+                transform.localScale = scale;
+            }
         }
 
         // // Rotate towards the target direction
