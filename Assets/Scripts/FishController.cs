@@ -13,6 +13,9 @@ public class FishController : MonoBehaviour
 
     void Start()
     {
+        // Set spawn pos
+        transform.position = GetRandomSpawn();
+
         // Set an initial random direction
         rb = GetComponent<Rigidbody2D>();
         targetDirection = GetRandomDirection();
@@ -21,13 +24,13 @@ public class FishController : MonoBehaviour
 
     void Update()
     {
-        // Update the timer and change direction if needed
-        directionChangeTimer -= Time.deltaTime;
-        if (directionChangeTimer <= 0f)
-        {
-            targetDirection = GetRandomDirection();
-            directionChangeTimer = directionChangeInterval;
-        }
+        // // Update the timer and change direction if needed
+        // directionChangeTimer -= Time.deltaTime;
+        // if (directionChangeTimer <= 0f)
+        // {
+        //     targetDirection = GetRandomDirection();
+        //     directionChangeTimer = directionChangeInterval;
+        // }
 
         // Apply velocity to the Rigidbody
         rb.linearVelocity = targetDirection * swimSpeed;
@@ -64,6 +67,14 @@ public class FishController : MonoBehaviour
         return new Vector2(
             Random.Range(-1f, 1f),
             Random.Range(-1f, 1f)
+        ).normalized;
+    }
+
+    private Vector2 GetRandomSpawn()
+    {
+        return new Vector2(
+            Random.Range(-4f, 4f),
+            Random.Range(0f, 9f)
         ).normalized;
     }
 }
