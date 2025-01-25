@@ -1,10 +1,12 @@
 using System.Drawing;
 using Mono.Cecil.Cil;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class FishController : MonoBehaviour
 {
-    public float swimSpeed = 2f; // Speed at which the fish swims
+    public float MaxSpeed = 3f; // Speed at which the fish swims
+    public float Acceleration = 0.1f; // Acceleration of the fish 
     public float directionChangeInterval = 3f; // Time interval for changing direction
     public float targetOnDirectionChangeChance = 0.5f; // Chance of targeting the active bubble when changing direction
 
@@ -26,25 +28,31 @@ public class FishController : MonoBehaviour
         directionChangeTimer = directionChangeInterval;
     }
 
+    bool isTargettingBubble = false;
     void Update()
     {
         // Update the timer and change direction if needed
         directionChangeTimer -= Time.deltaTime;
         if (directionChangeTimer <= 0f)
         {
-            if (Random.value < targetOnDirectionChangeChance && TryGetTargetedDirection(out var targetedDirection))
+            Vector2 bubbleDirection;
+            bool gotBubbleDirection = TryGetBubbleDirection(out bubbleDirection);
+
+            if (gotBubbleDirection && (isTargettingBubble || Random.value < targetOnDirectionChangeChance))
             {
-                targetDirection = targetedDirection;
+                targetDirection = bubbleDirection;
+                isTargettingBubble = true;
             }
             else
             {
                 targetDirection = GetRandomDirection();
+                isTargettingBubble = false;
             }
             directionChangeTimer = directionChangeInterval;
         }
 
-        // Apply velocity to the Rigidbody
-        rb.linearVelocity = targetDirection * swimSpeed;
+        rb.AddForce(targetDirection * Acceleration);
+        rb.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity, MaxSpeed);
 
         // Flip the fish sprite based on the direction it is swimming
         if (targetDirection.x > 0)
@@ -68,7 +76,8 @@ public class FishController : MonoBehaviour
         }
         else    
         {
-            // Reverse direction upon collision
+            // Reverse direction upon collision and take off some speed
+            rb.linearVelocity = -(rb.linearVelocity * 0.5f);
             targetDirection = -targetDirection;
         }
     }
@@ -83,7 +92,7 @@ public class FishController : MonoBehaviour
         ).normalized;
     }
 
-    private bool TryGetTargetedDirection(out Vector2 targetDirection)
+    private bool TryGetBubbleDirection(out Vector2 targetDirection)
     {
         var activeBubble = player.GetActiveBubble();
         if (activeBubble == null)
@@ -91,6 +100,14 @@ public class FishController : MonoBehaviour
             targetDirection = Vector2.zero;
             return false;
         }
+
+        // check not too far, i.e. fish sees the bubble
+        if (Vector2.Distance(activeBubble.transform.position, transform.position) > 5f)
+        {
+            targetDirection = Vector2.zero;
+            return false;
+        }
+
         targetDirection = (activeBubble.transform.position - transform.position).normalized;
         return true;
     }
