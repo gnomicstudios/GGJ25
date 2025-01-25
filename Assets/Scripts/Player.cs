@@ -22,10 +22,15 @@ public class Player : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         activeBubbleSpring = GetComponent<SpringJoint2D>();
         activeBubbleSpring.enabled = false;
+        body.gravityScale = 0.2f;
     }
 
     private void Update()
     {
+        if (GameManager.Instance.state != GameState.Playing ) {
+            return;
+        }
+
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
 
@@ -111,6 +116,7 @@ public class Player : MonoBehaviour
     public void Die()
     {
         animator.SetBool("isDead", true);
+        body.gravityScale = -0.5f;
     }
 
     public void Respawn()
@@ -118,8 +124,8 @@ public class Player : MonoBehaviour
         // Null check in case this is the first run and player is not yet initialized
         if (animator != null)
         {
-        animator.SetBool("isDead", false);
+            animator.SetBool("isDead", false);
         }
-        transform.position = new Vector3(0, 0.5f, 0);
+        transform.position = new Vector3(0, -4.5f, 0);
     }
 }

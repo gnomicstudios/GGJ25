@@ -11,6 +11,10 @@ public class HudController : MonoBehaviour
     public Color progressColorHit;
     public Color progressColorGrow;
 
+    public SlideInUI gameStartScreen;
+    public SlideInUI levelCompleteScreen;
+    public SlideInUI gameOverScreen;
+
 
     private Image progressBarImage;
 
