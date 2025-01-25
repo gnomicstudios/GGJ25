@@ -47,8 +47,14 @@ public class FishController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Reverse direction upon collision
-        Debug.Log("Collision detected with: " + collision.gameObject.name);
         targetDirection = -targetDirection;
+
+        // Check if the collided object has a specific component (e.g., ObstacleController)
+        var bubble = collision.gameObject.GetComponent<BubbleController>();
+        if (bubble != null)
+        {
+            bubble.Pop();
+        }
     }
 
 

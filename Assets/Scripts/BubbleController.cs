@@ -14,4 +14,11 @@ public class BubbleController : MonoBehaviour
     {
         
     }
+
+    public void Pop()
+    {
+        // Play a popping animation
+        // Destroy the bubble object
+        Destroy(gameObject);
+    }
 }
