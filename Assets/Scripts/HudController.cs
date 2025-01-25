@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+
 public class HudController : MonoBehaviour
 {
     public TextMeshProUGUI bubblesText;
