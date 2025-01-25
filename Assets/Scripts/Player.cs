@@ -1,3 +1,4 @@
+using System;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -19,20 +20,22 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        // Get horizontal input (A/D keys or Left/Right arrow keys)
-        float moveInput = Input.GetAxis("Horizontal");
+        float moveX = Input.GetAxis("Horizontal");
+        float moveY = Input.GetAxis("Vertical");
 
-        // Calculate the new velocity
-        Vector2 velocity = new Vector2(moveInput * speed, body.linearVelocity.y);
-
-        // Apply the velocity to the Rigidbody2D
-        body.linearVelocity = velocity;
-
-        FlipForDirection(moveInput);
+        MovePlayer(moveX, moveY);
+        FlipForDirection(moveX);
 
         BlowBubble();
+    }
 
-        Debug.Log(body.linearVelocity);
+    private void MovePlayer(float moveX, float moveY)
+    {
+        float velocityX = moveX * speed;
+        float velocityY = Math.Abs(moveY) > Mathf.Epsilon ? moveY * speed : body.linearVelocity.y;
+
+        // Apply the velocity to the Rigidbody2D
+        body.linearVelocity = new Vector2(velocityX, velocityY);
     }
 
     private void FlipForDirection(float moveInput)
