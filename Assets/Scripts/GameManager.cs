@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -118,18 +117,26 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (state == GameState.Start) {
+        if (state == GameState.Transitioning) {
+            return;
+        }
+
+        if (state == GameState.Start)
+        {
             if (Input.GetKeyDown(KeyCode.Space) && TimeSinceStateChange > slideTime)
             {
                 hud.gameStartScreen.SlideOut(slideTime);
+                SetState(GameState.Transitioning);
                 ClearLevel();
                 StartCoroutine("ResetLevelDelayed");
             }
         }
-        else if (state == GameState.LevelComplete) {
+        else if (state == GameState.LevelComplete)
+        {
             if (Input.GetKeyDown(KeyCode.Space) && TimeSinceStateChange > slideTime)
             {
                 hud.levelCompleteScreen.SlideOut(slideTime);
+                SetState(GameState.Transitioning);
                 ClearLevel();
                 StartCoroutine("ResetLevelDelayed");
             }
@@ -139,6 +146,7 @@ public class GameManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space) && TimeSinceStateChange > 3f)
             {
                 hud.gameOverScreen.SlideOut(slideTime);
+                SetState(GameState.Transitioning);
                 ClearLevel();
                 StartCoroutine("ReloadGameDelayed");
             }
@@ -200,6 +208,7 @@ public class GameManager : MonoBehaviour
 public enum GameState {
     Start,
     Playing,
+    LevelComplete,
     GameOver,
-    LevelComplete
+    Transitioning, // Used to prevent input during transition
 }
