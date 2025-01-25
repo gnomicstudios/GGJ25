@@ -30,7 +30,7 @@ public class BubbleController : MonoBehaviour
     void Update()
     {
         if (IsBlowingUp) {
-            game.SetBubbleBlowing(Area);
+            game.SetActiveBubble(this);
         }
 
     }
@@ -53,7 +53,7 @@ public class BubbleController : MonoBehaviour
     {
         IsBlowingUp = false;
 
-        game.SetBubbleBlowing(0.0f);
+        game.SetActiveBubble(null);
         game.BubbleCreated(this);
 
         AudioManager.PlayBubblePop();

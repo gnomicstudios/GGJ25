@@ -48,4 +48,11 @@ MonoBehaviour:
   initialLives: 5
   enemyPrefabs:
   - {fileID: 8479262721353472171, guid: dfcc24e8a9e23b740a289ba92ee6f3c9, type: 3}
+  - {fileID: 8479262721353472171, guid: 8961d5904e7844a91b89df5928bfb393, type: 3}
+  - {fileID: 8479262721353472171, guid: 5510375e802854d9dab9f0c6a1397602, type: 3}
+  - {fileID: 8479262721353472171, guid: 644d64e710eb7491a8a4a0db7aa37cea, type: 3}
+  - {fileID: 8479262721353472171, guid: 0d3d4373723ca4b2686eb8e15aec339e, type: 3}
+  - {fileID: 8479262721353472171, guid: c1b67161566ec433ba20528a7ccd90b5, type: 3}
+  - {fileID: 8479262721353472171, guid: c6a562b573ae746aeb07193be3484c9a, type: 3}
+  - {fileID: 8479262721353472171, guid: 65eb1194c9f884c32b683b573405b44e, type: 3}
   coverageRequired: 150

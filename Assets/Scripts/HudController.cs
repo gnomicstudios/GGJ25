@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class HudController : MonoBehaviour
 {
     public TextMeshProUGUI bubblesText;
-    public TextMeshProUGUI livesText;
     public TextMeshProUGUI levelText;
     public RectTransform progressBar;
     public Color progressColorNormal;
@@ -17,7 +16,8 @@ public class HudController : MonoBehaviour
 
     private GameManager game;
     private int bubbles = 0;
-    private int lives = 0;
+    private int level = 0;
+    private float coverage = 0.0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -34,16 +34,40 @@ public class HudController : MonoBehaviour
             bubbles = game.bubbles;
             bubblesText.text = bubbles.ToString();
         }
-        if (game.lives != lives) {
-            lives = game.lives;
-            livesText.text = lives.ToString();
+        if (game.level != level) {
+            level = game.level;
+            levelText.text = level.ToString();
         }
+
         progressBar.localScale = new Vector3(game.CoverageProportion, 1.0f, 1.0f);
 
-        if (game.coverageExtra > 0.0f) {
-            progressBarImage.color = Color.Lerp(progressColorNormal, progressColorGrow, game.coverageExtra / 10f);
-        } else {
-            progressBarImage.color = progressColorNormal;
+        if (game.CoverageProportion != coverage) {
+            LeanTween.value(coverage, game.CoverageProportion, 1f).setOnUpdate(UpdateProgressBar).setEase(LeanTweenType.easeOutCubic);
+            coverage = game.CoverageProportion;
+
+            LeanTween.value(0f, 1f, 1f).setOnUpdate(UpdateProgressColorGrow).setEase(LeanTweenType.easeInOutBounce);
+
+            // LeanTween.color(progressBar.gameObject, progressColorGrow, 0.5f).setEase(LeanTweenType.easeOutCubic).setOnComplete(() => {
+            //     LeanTween.color(progressBar.gameObject, progressColorNormal, 0.5f).setEase(LeanTweenType.easeInOutCubic);
+            // });
         }
+
+        // if (game.coverageExtra > 0.0f) {
+        //     progressBarImage.color = Color.Lerp(progressColorNormal, progressColorGrow, game.coverageExtra / 10f);
+        // } else {
+        //     progressBarImage.color = progressColorNormal;
+        // }
+    }
+
+    void UpdateProgressBar(float value) {
+        progressBar.localScale = new Vector3(value, 1.0f, 1.0f);
+    }
+
+    void UpdateProgressColorGrow(float value) {
+        progressBarImage.color = Color.Lerp(progressColorNormal, progressColorGrow, value);
+    }
+
+    void UpdateProgressColorHit(float value) {
+        progressBarImage.color = Color.Lerp(progressColorNormal, progressColorHit, value);
     }
 }

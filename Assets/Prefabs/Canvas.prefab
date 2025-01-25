@@ -174,7 +174,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8997123269657956567
 RectTransform:
   m_ObjectHideFlags: 0
@@ -661,8 +661,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 141.3, y: 139}
-  m_SizeDelta: {x: 138.5695, y: 50}
+  m_AnchoredPosition: {x: 83.5, y: 127.5}
+  m_SizeDelta: {x: 134.77, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8764711660247309126
 CanvasRenderer:
@@ -692,7 +692,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'B
+  m_text: 'Bubbles:
 
 '
   m_isRightToLeft: 0
@@ -799,8 +799,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 156.1778, y: 139}
-  m_SizeDelta: {x: 78.7556, y: 50}
+  m_AnchoredPosition: {x: 179.45999, y: 127.50001}
+  m_SizeDelta: {x: 57.152, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6125594612362422163
 CanvasRenderer:
@@ -918,7 +918,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1743090487966326739
 RectTransform:
   m_ObjectHideFlags: 0

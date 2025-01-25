@@ -16,23 +16,16 @@ public class GameManager : MonoBehaviour
     private List<FishController> enemyObjects = new List<FishController>();
     private List<BubbleController> bubbleObjects = new List<BubbleController>();
     
-
     internal int bubbles;
-    internal int lives;
 
-
-    internal int level = 1;
+    internal int level = 0;
     public float coverageRequired = 20.0f;
-
-
 
     private float coverage = 0.0f;
 
-    internal float coverageExtra = 0.0f;
-
     public float CoverageProportion {
         get {
-            return Mathf.Min(1.0f, (coverage + coverageExtra) / coverageRequired);
+            return Mathf.Min(1.0f, coverage / coverageRequired);
         }
     }
 
@@ -64,10 +57,9 @@ public class GameManager : MonoBehaviour
     void ResetLevel() {
         Debug.Log("GameManager Start");
 
+        level++;
         bubbles = initialBubbles;
-        lives = initialLives;
         coverage = 0.0f;
-        coverageExtra = 0.0f;
         state = GameState.Playing;
 
         for (var i = 0; i < enemyObjects.Count; i++) {
@@ -90,12 +82,6 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (state == GameState.Playing) {
-            if (CoveragePropotionLockedIn >= 1f) {
-                state = GameState.LevelComplete;
-                LevelComplete();
-            }
-        }
     }
 
     private void LevelComplete()
@@ -109,30 +95,37 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator ResetLevelDelayed() {
         yield return new WaitForSeconds(2);
-        level++;
+
         ResetLevel();
     }
 
+    private BubbleController activeBubble;
+
     // Set whilst the player is blowing up a bubble
-    public void SetBubbleBlowing(float area)
+    public void SetActiveBubble(BubbleController bubble)
     {
-        coverageExtra = area; 
+        activeBubble = bubble; 
     }
 
     public void BubbleCreated(BubbleController bubble)
     {
         bubbleObjects.Add(bubble);
         coverage += bubble.Area;
-        bubbles--;  
+        bubbles--;
+        if (CoverageProportion >= 1f) {
+            state = GameState.LevelComplete;
+            LevelComplete();
+        } else if (bubbles <= 0) {
+            GameOver();
+        }
     }
 
     public void BubblePopped()
     {
         Debug.Log("GameManager BubblePopped");
 
-        coverageExtra = 0f;
-        lives--;
-        if (lives <= 0)
+        bubbles--;
+        if (bubbles <= 0)
         {
             GameOver();
         }
