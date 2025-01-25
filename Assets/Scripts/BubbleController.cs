@@ -29,7 +29,7 @@ public class BubbleController : MonoBehaviour
     void Start()
     {
         game = FindFirstObjectByType<GameManager>();
-        circleCollider = GetComponent<CircleCollider2D>();
+        circleCollider = GetComponentInChildren<CircleCollider2D>();
         player = FindFirstObjectByType<Player>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }

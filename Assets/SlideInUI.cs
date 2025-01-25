@@ -16,16 +16,16 @@ public class SlideInUI : MonoBehaviour
     }
 
 
-    internal void SlideIn()
+    internal void SlideIn(float slideTime = 1f)
     {
         this.gameObject.SetActive(true);
         this.gameObject.transform.localPosition = new Vector3(0, 400, 0);
-        LeanTween.moveLocal(this.gameObject, new Vector3(0, 0, 0), 1.0f).setEase(LeanTweenType.easeOutCubic);
+        LeanTween.moveLocal(this.gameObject, new Vector3(0, 0, 0), slideTime).setEase(LeanTweenType.easeOutCubic);
     }
 
-    internal void SlideOut()
+    internal void SlideOut(float slideTime = 1f)
     {
-        LeanTween.moveLocal(this.gameObject, new Vector3(0, 400, 0), 1.0f).setEase(LeanTweenType.easeOutCubic).setOnComplete(() => {
+        LeanTween.moveLocal(this.gameObject, new Vector3(0, 400, 0), slideTime).setEase(LeanTweenType.easeOutCubic).setOnComplete(() => {
             this.gameObject.SetActive(false);
         });
     }

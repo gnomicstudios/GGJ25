@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
 
     private float coverage = 0.0f;
 
+    private float slideTime = 0.8f;
+
     private Player player;
 
     private HudController hud;
@@ -56,7 +58,7 @@ public class GameManager : MonoBehaviour
         SetState(GameState.Start);
 
         // Wait for player to start (in Update)
-        hud.gameStartScreen.SlideIn();
+        hud.gameStartScreen.SlideIn(slideTime);
     }
 
     private void SetState(GameState newState)
@@ -70,20 +72,14 @@ public class GameManager : MonoBehaviour
         get { return Time.time - timeAtStateChange; }
     }
 
-    void ResetLevel() {
-        Debug.Log("GameManager Start");
-
-        level++;
-        bubbles = initialBubbles;
-        coverage = 0.0f;
-        SetState(GameState.Playing);
-        player.Respawn();
+    void ClearLevel() {
+        Debug.Log("GameManager ClearLevel");
 
         for (var i = 0; i < enemyObjects.Count; i++) {
             try {
                 Destroy(enemyObjects[i].gameObject);
             } catch (Exception e) {
-                Debug.LogError("Error destroying enemy object: " + e.Message);
+                Debug.LogWarning("Error destroying enemy object: " + e.Message);
             }
         }
         enemyObjects.Clear();
@@ -92,10 +88,20 @@ public class GameManager : MonoBehaviour
             try {
                 Destroy(bubbleObjects[i].gameObject);
             } catch (Exception e) {
-                Debug.LogError("Error destroying bubble object: " + e.Message);
+                Debug.LogWarning("Error destroying bubble object: " + e.Message);
             }
         }
         bubbleObjects.Clear();
+    }
+
+    void ResetLevel() {
+        Debug.Log("GameManager ResetLevel");
+
+        level++;
+        bubbles = initialBubbles;
+        coverage = 0.0f;
+        SetState(GameState.Playing);
+        player.Respawn();
 
         // One enemy extra per level
         for (var i = 0; i < level; i++) {
@@ -105,7 +111,7 @@ public class GameManager : MonoBehaviour
     }
 
     IEnumerator ResetLevelDelayed() {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(slideTime);
         ResetLevel();
     }
 
@@ -113,9 +119,18 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if (state == GameState.Start) {
-            if (Input.GetKeyDown(KeyCode.Space) && TimeSinceStateChange > 1f)
+            if (Input.GetKeyDown(KeyCode.Space) && TimeSinceStateChange > slideTime)
             {
-                hud.gameStartScreen.SlideOut();
+                hud.gameStartScreen.SlideOut(slideTime);
+                ClearLevel();
+                StartCoroutine("ResetLevelDelayed");
+            }
+        }
+        else if (state == GameState.LevelComplete) {
+            if (Input.GetKeyDown(KeyCode.Space) && TimeSinceStateChange > slideTime)
+            {
+                hud.levelCompleteScreen.SlideOut(slideTime);
+                ClearLevel();
                 StartCoroutine("ResetLevelDelayed");
             }
         }
@@ -123,7 +138,8 @@ public class GameManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space) && TimeSinceStateChange > 3f)
             {
-                hud.gameOverScreen.SlideOut();
+                hud.gameOverScreen.SlideOut(slideTime);
+                ClearLevel();
                 StartCoroutine("ReloadGameDelayed");
             }
         }
@@ -134,15 +150,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("GameManager LevelComplete");
 
         SetState(GameState.LevelComplete);
-        hud.levelCompleteScreen.SlideIn();
-        StartCoroutine("NextLevelDelayed");
-    }
-
-    private IEnumerator NextLevelDelayed() {
-        yield return new WaitForSeconds(3);
-        hud.levelCompleteScreen.SlideOut();
-        yield return new WaitForSeconds(1);
-        ResetLevel();
+        hud.levelCompleteScreen.SlideIn(slideTime);
     }
 
     public void BubbleCreated(BubbleController bubble)
@@ -178,13 +186,13 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("GameManager GameOver");
 
-        hud.gameOverScreen.SlideIn();
+        hud.gameOverScreen.SlideIn(slideTime);
         SetState(GameState.GameOver);
         player.Die();
     }
 
     private IEnumerator ReloadGameDelayed() {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(slideTime);
         SceneManager.LoadScene("MainScene");
     }
 }
