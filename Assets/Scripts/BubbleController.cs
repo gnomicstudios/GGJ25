@@ -6,12 +6,14 @@ public class BubbleController : MonoBehaviour
 
     private GameManager game;
     private CircleCollider2D circleCollider;
+    private AudioSource audioSource;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         game = FindFirstObjectByType<GameManager>();
         circleCollider = GetComponent<CircleCollider2D>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -34,10 +36,10 @@ public class BubbleController : MonoBehaviour
 
     public void Pop()
     {
-        // Play a popping animation
-        // Destroy the bubble object
-        Destroy(gameObject);
         game.BubblePopped();
-
+        audioSource.Play();
+        
+        Debug.Log("Bubble popped!");
+        Destroy(gameObject);
     }
 }
