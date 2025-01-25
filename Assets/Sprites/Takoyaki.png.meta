@@ -100,10 +100,10 @@ TextureImporter:
       name: Takoyaki_attack
       rect:
         serializedVersion: 2
-        x: 23
-        y: 556
-        width: 455
-        height: 441
+        x: 8
+        y: 541
+        width: 484
+        height: 471
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -122,10 +122,10 @@ TextureImporter:
       name: Takoyaki_death
       rect:
         serializedVersion: 2
-        x: 530
-        y: 574
-        width: 456
-        height: 415
+        x: 512
+        y: 556
+        width: 492
+        height: 450
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -144,10 +144,10 @@ TextureImporter:
       name: Takoyaki_hit
       rect:
         serializedVersion: 2
-        x: 22
-        y: 16
-        width: 460
-        height: 498
+        x: 7
+        y: 0
+        width: 491
+        height: 529
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,10 +166,10 @@ TextureImporter:
       name: Takoyaki_move
       rect:
         serializedVersion: 2
-        x: 555
-        y: 35
-        width: 457
-        height: 475
+        x: 539
+        y: 19
+        width: 485
+        height: 504
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
