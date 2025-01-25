@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.2, g: 0.77254903, b: 0.9607843, a: 0.392}
+  m_Color: {r: 0.2, g: 0.77442634, b: 0.9607843, a: 0.392}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -368,12 +368,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -412,6 +412,9 @@ MonoBehaviour:
   livesText: {fileID: 8223413664120164479}
   levelText: {fileID: 3987212416355235328}
   progressBar: {fileID: 7570606963280344819}
+  progressColorNormal: {r: 0.2, g: 0.77254903, b: 0.9607843, a: 0.392}
+  progressColorHit: {r: 0.9607843, g: 0.2, b: 0.20744912, a: 0.392}
+  progressColorGrow: {r: 0.27546746, g: 0.9607843, b: 0.2, a: 0.392}
 --- !u!1 &4277416653446810776
 GameObject:
   m_ObjectHideFlags: 0

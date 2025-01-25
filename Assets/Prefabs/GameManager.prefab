@@ -44,7 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc26b9a1b4c7e4e9d9e8607469cae98c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bubbles: 20
-  lives: 5
-  level: 1
-  coverageRequired: 10
+  initialBubbles: 20
+  initialLives: 5
+  enemyPrefabs:
+  - {fileID: 8479262721353472171, guid: dfcc24e8a9e23b740a289ba92ee6f3c9, type: 3}
+  coverageRequired: 150

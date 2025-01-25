@@ -39,7 +39,7 @@ public class BubbleController : MonoBehaviour
         IsBlowingUp = false;
 
         game.SetBubbleBlowing(0.0f);
-        game.BubbleCreated(Area);
+        game.BubbleCreated(this);
 
     }
 
