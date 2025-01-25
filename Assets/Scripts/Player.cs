@@ -67,6 +67,7 @@ public class Player : MonoBehaviour
                 activeBubble.transform.position = transform.position;
             } else if (Input.GetKeyUp(KeyCode.Space)) {
                 Physics2D.IgnoreCollision(activeBubble.GetComponent<Collider2D>(), this.GetComponent<Collider2D>(), false);
+                activeBubble.IsBlowingUp = false;
                 activeBubble = null;
             }
         }
