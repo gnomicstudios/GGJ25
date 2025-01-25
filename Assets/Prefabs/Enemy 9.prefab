@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxSpeed: 5
-  Acceleration: 4
+  Acceleration: 2
   directionChangeInterval: 1
   targetOnDirectionChangeChance: 1
 --- !u!50 &2545600620099113561
