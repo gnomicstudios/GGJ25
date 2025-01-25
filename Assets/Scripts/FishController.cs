@@ -51,7 +51,7 @@ public class FishController : MonoBehaviour
 
         // Check if the collided object has a specific component (e.g., ObstacleController)
         var bubble = collision.gameObject.GetComponent<BubbleController>();
-        if (bubble != null)
+        if (bubble != null && bubble.IsBlowingUp)
         {
             bubble.Pop();
         }

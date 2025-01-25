@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class BubbleController : MonoBehaviour
 {
+    public bool IsBlowingUp = true; 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
