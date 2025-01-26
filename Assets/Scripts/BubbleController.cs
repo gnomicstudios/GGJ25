@@ -30,7 +30,7 @@ public class BubbleController : MonoBehaviour
     void Start()
     {
         game = FindFirstObjectByType<GameManager>();
-        circleCollider = GetComponent<CircleCollider2D>();
+        circleCollider = GetComponentInChildren<CircleCollider2D>();
         player = FindFirstObjectByType<Player>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         originalColor = spriteRenderer.color;
@@ -73,18 +73,18 @@ public class BubbleController : MonoBehaviour
 
     public void FinishBlowingUp()
     {
+        Debug.Log("Bubble created!");
+
         game.BubbleCreated(this);
 
         AudioManager.PlayBubblePop();
-        
-        Debug.Log("Bubble created!");
     }
 
     public void Pop()
     {
         Debug.Log("Bubble destroyed!");
 
-        game.BubblePopped();
+        game.BubblePopped(this);
         AudioManager.PlayBubbleDestroyed();
         circleCollider.enabled = false;
         spriteRenderer.color = new Color(1, 0, 0, 0.5f);

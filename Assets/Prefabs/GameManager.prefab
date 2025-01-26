@@ -55,4 +55,4 @@ MonoBehaviour:
   - {fileID: 8479262721353472171, guid: c1b67161566ec433ba20528a7ccd90b5, type: 3}
   - {fileID: 8479262721353472171, guid: c6a562b573ae746aeb07193be3484c9a, type: 3}
   - {fileID: 8479262721353472171, guid: 65eb1194c9f884c32b683b573405b44e, type: 3}
-  coverageRequired: 150
+  coverageRequired: 100
