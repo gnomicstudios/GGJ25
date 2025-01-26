@@ -6,6 +6,7 @@ public class FishController : MonoBehaviour
     public float Acceleration = 0.1f; // Acceleration of the fish 
     public float directionChangeInterval = 3f; // Time interval for changing direction
     public float targetOnDirectionChangeChance = 0.5f; // Chance of targeting the active bubble when changing direction
+    public float targettingSpeedModifer = 1.0f; // Speed modifier when targetting the active bubble
 
     private Rigidbody2D rb; // Reference to the fish's rigidbody
     private Vector2 targetDirection; // The direction the fish is currently swimming
@@ -51,6 +52,10 @@ public class FishController : MonoBehaviour
         // rb.AddForce(targetDirection * Acceleration);
         // rb.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity, MaxSpeed);
         rb.linearVelocity = targetDirection * MaxSpeed;
+        if (isTargettingBubble)
+        {
+            rb.linearVelocity *= targettingSpeedModifer;
+        }
 
         // Flip the fish sprite based on the direction it is swimming
         var scale = transform.localScale;

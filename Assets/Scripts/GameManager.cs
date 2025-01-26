@@ -196,9 +196,10 @@ public class GameManager : MonoBehaviour
 
     void LoadLevel9() {
         var superStar = Instantiate(enemyPrefabs[7]);
-        superStar.MaxSpeed = 9.0f;
-        superStar.Acceleration = 10f;
-        superStar.directionChangeInterval = 0.2f;
+        superStar.MaxSpeed = 6.0f;
+        superStar.Acceleration = 8f;
+        superStar.targettingSpeedModifer = 1.3f;
+        superStar.directionChangeInterval = 0.3f;
         superStar.targetOnDirectionChangeChance = 1.0f;
         enemyObjects.Add(superStar);
     }
