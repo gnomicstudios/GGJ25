@@ -142,8 +142,7 @@ public class GameManager : MonoBehaviour
     }
 
     void LoadLevel2() {
-        var enemy = Instantiate(enemyPrefabs[7]);
-        enemyObjects.Add(enemy);
+        enemyObjects.Add(Instantiate(enemyPrefabs[6]));
     }
 
     void LoadLevel3() {
@@ -165,7 +164,7 @@ public class GameManager : MonoBehaviour
         // enemyObjects.Add(Instantiate(enemyPrefabs[2]));
         // enemyObjects.Add(Instantiate(enemyPrefabs[3]));
         // enemyObjects.Add(Instantiate(enemyPrefabs[4]));
-        enemyObjects.Add(Instantiate(enemyPrefabs[6]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[7]));
     }
 
     void LoadLevel6() {

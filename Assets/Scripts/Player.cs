@@ -6,10 +6,11 @@ public class Player : MonoBehaviour
     public float speed = 5f; // Speed of the player movement
 
     public GameObject bubblePrefab;
+    public AudioClip audioBubbleStrech;
 
     private BubbleController activeBubble;
-
     private SpringJoint2D activeBubbleSpring;
+    private AudioSource audioSource;
 
 
     internal Rigidbody2D body;
@@ -22,6 +23,7 @@ public class Player : MonoBehaviour
         activeBubbleSpring = GetComponent<SpringJoint2D>();
         activeBubbleSpring.enabled = false;
         body.gravityScale = 0.2f;
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -73,7 +75,7 @@ public class Player : MonoBehaviour
             activeBubble.transform.localScale = new Vector3(activeBubble.initialScale, activeBubble.initialScale, activeBubble.initialScale);
             activeBubbleSpring.connectedBody = activeBubble.GetComponent<Rigidbody2D>();
             activeBubbleSpring.enabled = true;
-            activeBubble.StartStretch();
+            audioSource.PlayOneShot(audioBubbleStrech);
             Physics2D.IgnoreCollision(activeBubble.GetComponent<Collider2D>(), this.GetComponent<Collider2D>(), true);
         }
         else if (activeBubble != null)
@@ -99,6 +101,7 @@ public class Player : MonoBehaviour
         Physics2D.IgnoreCollision(activeBubble.GetComponent<Collider2D>(), this.GetComponent<Collider2D>(), false);
         activeBubble.FinishBlowingUp();
         CancelBubble();
+        audioSource.Stop();
     }
 
 
@@ -112,6 +115,11 @@ public class Player : MonoBehaviour
     public BubbleController GetActiveBubble()
     {
         return activeBubble;
+    }
+
+    public void BubblePopped()
+    {
+        audioSource.Stop();
     }
 
     public void Hit()
