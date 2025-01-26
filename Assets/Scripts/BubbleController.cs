@@ -4,7 +4,11 @@ public class BubbleController : MonoBehaviour
 {
     public float growSpeed = 0.7f;
     public float initialScale = 0.8f;
+    public AudioClip audioBubbleReleased;
+    public AudioClip audioBubblePop;
+    public AudioClip audioBubbleStrech;
 
+    AudioSource audioSource;
 
     public bool IsBlowingUp
     {
@@ -34,6 +38,7 @@ public class BubbleController : MonoBehaviour
         player = FindFirstObjectByType<Player>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         originalColor = spriteRenderer.color;
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -68,7 +73,7 @@ public class BubbleController : MonoBehaviour
     public void BubbleOnBubbleCollision()
     {
         spriteRenderer.color = new Color(0f, 0.5f, 0.5f, 0.5f);
-        bubbleBlueTime = 0.01f;
+        bubbleBlueTime = 0.01f; 
     }
 
     public void FinishBlowingUp()
@@ -77,18 +82,25 @@ public class BubbleController : MonoBehaviour
 
         game.BubbleCreated(this);
 
-        AudioManager.PlayBubblePop();
+        audioSource.PlayOneShot(audioBubbleReleased);
     }
 
     public void Pop()
     {
-        Debug.Log("Bubble destroyed!");
+        Debug.Log("Bubble popped!");
 
         game.BubblePopped(this);
-        AudioManager.PlayBubbleDestroyed();
+
+        audioSource.PlayOneShot(audioBubblePop);
+
         circleCollider.enabled = false;
         spriteRenderer.color = new Color(1, 0, 0, 0.5f);
         
-        Destroy(gameObject, 0.12f);
+        Destroy(gameObject, 0.22f);
     }
+
+    public void StartStretch()
+    {
+        audioSource.PlayOneShot(audioBubbleStrech, 0.6f);
+    }   
 }

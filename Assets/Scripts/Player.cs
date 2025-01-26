@@ -75,7 +75,7 @@ public class Player : MonoBehaviour
             activeBubbleSpring.connectedBody = activeBubble.GetComponent<Rigidbody2D>();
             activeBubbleSpring.enabled = true;
             Physics2D.IgnoreCollision(activeBubble.GetComponent<Collider2D>(), this.GetComponent<Collider2D>(), true);
-            AudioManager.PlayBubbleExpanding();
+            activeBubble.StartStretch();
         }
         else if (activeBubble != null)
         {
