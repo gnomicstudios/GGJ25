@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
                 LoadLevel1();
                 break;
             case 2:
-                LoadLevel2();
+                LoadLevel9();
                 break;
             case 3:
                 LoadLevel3();
@@ -127,8 +127,11 @@ public class GameManager : MonoBehaviour
             case 8:
                 LoadLevel8();
                 break;
+            case 9:
+                LoadLevel9();
+                break;
             default:
-                LoadLevel8();
+                LoadLevel9();
                 break;
         }
     }
@@ -157,11 +160,12 @@ public class GameManager : MonoBehaviour
     }
 
     void LoadLevel5() {
-        enemyObjects.Add(Instantiate(enemyPrefabs[0]));
-        enemyObjects.Add(Instantiate(enemyPrefabs[1]));
-        enemyObjects.Add(Instantiate(enemyPrefabs[2]));
-        enemyObjects.Add(Instantiate(enemyPrefabs[3]));
-        enemyObjects.Add(Instantiate(enemyPrefabs[4]));
+        // enemyObjects.Add(Instantiate(enemyPrefabs[0]));
+        // enemyObjects.Add(Instantiate(enemyPrefabs[1]));
+        // enemyObjects.Add(Instantiate(enemyPrefabs[2]));
+        // enemyObjects.Add(Instantiate(enemyPrefabs[3]));
+        // enemyObjects.Add(Instantiate(enemyPrefabs[4]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[6]));
     }
 
     void LoadLevel6() {
@@ -190,7 +194,18 @@ public class GameManager : MonoBehaviour
         enemyObjects.Add(Instantiate(enemyPrefabs[3]));
         enemyObjects.Add(Instantiate(enemyPrefabs[4]));
         enemyObjects.Add(Instantiate(enemyPrefabs[5]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[6]));
         enemyObjects.Add(Instantiate(enemyPrefabs[7]));
+    }
+
+    
+    void LoadLevel9() {
+        var superStar = Instantiate(enemyPrefabs[0]);
+        superStar.MaxSpeed = 10f;
+        superStar.Acceleration = 10f;
+        superStar.directionChangeInterval = 0.2f;
+        superStar.targetOnDirectionChangeChance = 1.0f;
+        enemyObjects.Add(superStar);
     }
 
     IEnumerator ResetLevelDelayed() {
