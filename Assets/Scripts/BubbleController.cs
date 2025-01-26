@@ -5,8 +5,7 @@ public class BubbleController : MonoBehaviour
     public float growSpeed = 0.7f;
     public float initialScale = 0.8f;
     public AudioClip audioBubbleReleased;
-    public AudioClip audioBubblePop;
-    public AudioClip audioBubbleStrech;
+    
     public GameObject bubbleExplosionPrefab;
 
     AudioSource audioSource;
@@ -92,20 +91,11 @@ public class BubbleController : MonoBehaviour
 
         game.BubblePopped(this);
 
-        audioSource.PlayOneShot(audioBubblePop);
-
         circleCollider.enabled = false;
 
         var bubbleExplosion = Instantiate(bubbleExplosionPrefab, transform.position, Quaternion.identity);
-        //Destroy(bubbleExplosion, 5.0f);
-        //spriteRenderer.color = new Color(1, 0, 0, 0.5f);
         
         Destroy(gameObject);
     }
 
-    public void StartStretch()
-    {
-        Debug.Log("Bubble stretching!");    
-        audioSource.PlayOneShot(audioBubbleStrech);
-    }   
 }
