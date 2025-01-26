@@ -97,11 +97,95 @@ public class GameManager : MonoBehaviour
         }
         bubbleObjects.Clear();
 
-        // One enemy extra per level
-        for (var i = 0; i < level; i++) {
-            var enemy = Instantiate(enemyPrefabs[i % enemyPrefabs.Length]);
-            enemyObjects.Add(enemy);
+        switch (level) {
+            case 1:
+                LoadLevel1();
+                break;
+            case 2:
+                LoadLevel2();
+                break;
+            case 3:
+                LoadLevel3();
+                break;
+            case 4:
+                LoadLevel4();
+                break;
+            case 5:
+                LoadLevel5();
+                break;
+            case 6:
+                LoadLevel6();
+                break;
+            case 7:
+                LoadLevel7();
+                break;
+            case 8:
+                LoadLevel8();
+                break;
+            default:
+                LoadLevel8();
+                break;
         }
+    }
+
+    void LoadLevel1() {
+        var enemy = Instantiate(enemyPrefabs[0]);
+        enemyObjects.Add(enemy);
+    }
+
+    void LoadLevel2() {
+        var enemy = Instantiate(enemyPrefabs[7]);
+        enemyObjects.Add(enemy);
+    }
+
+    void LoadLevel3() {
+        enemyObjects.Add(Instantiate(enemyPrefabs[0]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[1]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[2]));
+    }
+
+    void LoadLevel4() {
+        enemyObjects.Add(Instantiate(enemyPrefabs[0]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[1]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[2]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[3]));
+    }
+
+    void LoadLevel5() {
+        enemyObjects.Add(Instantiate(enemyPrefabs[0]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[1]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[2]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[3]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[4]));
+    }
+
+    void LoadLevel6() {
+        enemyObjects.Add(Instantiate(enemyPrefabs[0]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[1]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[2]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[3]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[4]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[5]));
+    }
+
+    void LoadLevel7() {
+        enemyObjects.Add(Instantiate(enemyPrefabs[0]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[1]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[2]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[3]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[4]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[5]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[6]));
+    }
+
+    void LoadLevel8() {
+        enemyObjects.Add(Instantiate(enemyPrefabs[0]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[1]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[2]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[3]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[4]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[5]));
+        enemyObjects.Add(Instantiate(enemyPrefabs[7]));
     }
 
     IEnumerator ResetLevelDelayed() {
