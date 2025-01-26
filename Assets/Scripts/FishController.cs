@@ -1,6 +1,3 @@
-using System.Drawing;
-using Mono.Cecil.Cil;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public class FishController : MonoBehaviour
