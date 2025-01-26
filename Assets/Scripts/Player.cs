@@ -102,6 +102,7 @@ public class Player : MonoBehaviour
         Physics2D.IgnoreCollision(activeBubble.GetComponent<Collider2D>(), this.GetComponent<Collider2D>(), false);
         activeBubble.FinishBlowingUp();
         CancelBubble();
+        audioSource.Stop();
     }
 
 
@@ -115,6 +116,11 @@ public class Player : MonoBehaviour
     public BubbleController GetActiveBubble()
     {
         return activeBubble;
+    }
+
+    public void BubblePopped()
+    {
+        audioSource.Stop();
     }
 
     public void Hit()
