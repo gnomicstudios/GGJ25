@@ -73,18 +73,18 @@ public class BubbleController : MonoBehaviour
 
     public void FinishBlowingUp()
     {
+        Debug.Log("Bubble created!");
+
         game.BubbleCreated(this);
 
         AudioManager.PlayBubblePop();
-        
-        Debug.Log("Bubble created!");
     }
 
     public void Pop()
     {
         Debug.Log("Bubble destroyed!");
 
-        game.BubblePopped();
+        game.BubblePopped(this);
         AudioManager.PlayBubbleDestroyed();
         circleCollider.enabled = false;
         spriteRenderer.color = new Color(1, 0, 0, 0.5f);

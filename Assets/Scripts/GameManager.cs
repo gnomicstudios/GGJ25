@@ -175,18 +175,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void BubblePopped()
+    public void BubblePopped(BubbleController bubble)
     {
         Debug.Log("GameManager BubblePopped");
 
+        player.Hit();
         bubbles--;
         if (bubbles <= 0)
         {
             GameOver();
-        }
-        else
-        {
-            player.Hit();
         }
     }
 

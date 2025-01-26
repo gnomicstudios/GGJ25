@@ -99,6 +99,12 @@ public class Player : MonoBehaviour
 
         Physics2D.IgnoreCollision(activeBubble.GetComponent<Collider2D>(), this.GetComponent<Collider2D>(), false);
         activeBubble.FinishBlowingUp();
+        CancelBubble();
+    }
+
+
+    private void CancelBubble()
+    {
         activeBubble = null;
         activeBubbleSpring.enabled = false;
         activeBubbleSpring.connectedBody = null;
@@ -112,6 +118,8 @@ public class Player : MonoBehaviour
     public void Hit()
     {
         animator.SetTrigger("Hit");
+
+        CancelBubble();
     }
 
     public void Die()
