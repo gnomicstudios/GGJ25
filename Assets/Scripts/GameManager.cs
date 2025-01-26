@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
 
     private List<FishController> enemyObjects = new List<FishController>();
     private List<BubbleController> bubbleObjects = new List<BubbleController>();
+    private Transform winScreen;
     
     internal int bubbles;
 
@@ -218,7 +219,7 @@ public class GameManager : MonoBehaviour
     }
 
     void LoadWinLevel() {
-        Instantiate(winPrefab);
+        winScreen = Instantiate(winPrefab).transform;
     }
 
     IEnumerator ResetLevelDelayed() {
@@ -273,7 +274,7 @@ public class GameManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space) && TimeSinceStateChange > 3f)
             {
-                hud.gameCompleteScreen.SlideOut(slideTime);
+                LeanTween.scale(winScreen.gameObject, Vector3.one * 5f, slideTime * 1.5f).setEaseInOutCubic();
                 SetState(GameState.Transitioning);
                 ClearLevel();
                 StartCoroutine("ReloadGameDelayed");
@@ -322,14 +323,6 @@ public class GameManager : MonoBehaviour
         hud.gameOverScreen.SlideIn(slideTime);
         SetState(GameState.GameOver);
         player.Die();
-    }
-
-    private void GameComplete()
-    {
-        Debug.Log("GameManager GameComplete");
-
-        hud.gameCompleteScreen.SlideIn(slideTime);
-        SetState(GameState.GameComplete);
     }
 
     private IEnumerator ReloadGameDelayed() {

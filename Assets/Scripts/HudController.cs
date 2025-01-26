@@ -15,7 +15,6 @@ public class HudController : MonoBehaviour
     public SlideInUI gameStartScreen;
     public SlideInUI levelCompleteScreen;
     public SlideInUI gameOverScreen;
-    public SlideInUI gameCompleteScreen;
 
     private Image progressBarImage;
 

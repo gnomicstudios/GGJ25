@@ -689,6 +689,10 @@ PrefabInstance:
       value: GameManager
       objectReference: {fileID: 0}
     - target: {fileID: 2770451863322331498, guid: 8022c06def0044828a6bd70bede078fd, type: 3}
+      propertyPath: level
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2770451863322331498, guid: 8022c06def0044828a6bd70bede078fd, type: 3}
       propertyPath: music
       value: 
       objectReference: {fileID: 1364892518}
