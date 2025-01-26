@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public int initialLives = 5;
 
     public FishController[] enemyPrefabs;
+    public GameObject winPrefab;
+    public AudioSource music;
 
     internal GameState state = GameState.Start;
     private float timeAtStateChange = 0.0f;
@@ -21,7 +23,7 @@ public class GameManager : MonoBehaviour
     
     internal int bubbles;
 
-    internal int level = 0;
+    public int level = 0;
     public float coverageRequired = 20.0f;
 
     private float coverage = 0.0f;
@@ -99,6 +101,17 @@ public class GameManager : MonoBehaviour
         level++;
         bubbles = initialBubbles;
         coverage = 0.0f;
+
+        // Win level if we've reached the end
+        if (level > 9) {
+            LoadWinLevel();
+            SetState(GameState.GameComplete);
+            music.volume = 0.9f;
+            player.gameObject.SetActive(false);
+            return;
+        }
+
+
         SetState(GameState.Playing);
         player.Respawn();
 
@@ -131,7 +144,7 @@ public class GameManager : MonoBehaviour
                 LoadLevel9();
                 break;
             default:
-                LoadLevel9();
+                LoadWinLevel();
                 break;
         }
     }
@@ -204,6 +217,10 @@ public class GameManager : MonoBehaviour
         enemyObjects.Add(superStar);
     }
 
+    void LoadWinLevel() {
+        Instantiate(winPrefab);
+    }
+
     IEnumerator ResetLevelDelayed() {
         yield return new WaitForSeconds(slideTime);
         ResetLevel();
@@ -247,6 +264,16 @@ public class GameManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space) && TimeSinceStateChange > 3f)
             {
                 hud.gameOverScreen.SlideOut(slideTime);
+                SetState(GameState.Transitioning);
+                ClearLevel();
+                StartCoroutine("ReloadGameDelayed");
+            }
+        }
+        else if (state == GameState.GameComplete)
+        {
+            if (Input.GetKeyDown(KeyCode.Space) && TimeSinceStateChange > 3f)
+            {
+                hud.gameCompleteScreen.SlideOut(slideTime);
                 SetState(GameState.Transitioning);
                 ClearLevel();
                 StartCoroutine("ReloadGameDelayed");
@@ -297,6 +324,14 @@ public class GameManager : MonoBehaviour
         player.Die();
     }
 
+    private void GameComplete()
+    {
+        Debug.Log("GameManager GameComplete");
+
+        hud.gameCompleteScreen.SlideIn(slideTime);
+        SetState(GameState.GameComplete);
+    }
+
     private IEnumerator ReloadGameDelayed() {
         yield return new WaitForSeconds(slideTime);
         SceneManager.LoadScene("MainScene");
@@ -308,5 +343,6 @@ public enum GameState {
     Playing,
     LevelComplete,
     GameOver,
+    GameComplete,
     Transitioning, // Used to prevent input during transition
 }
