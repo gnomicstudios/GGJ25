@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
                 LoadLevel1();
                 break;
             case 2:
-                LoadLevel9();
+                LoadLevel2();
                 break;
             case 3:
                 LoadLevel3();
