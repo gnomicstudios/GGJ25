@@ -90,6 +90,7 @@ public class BubbleController : MonoBehaviour
         Debug.Log("Bubble popped!");
 
         game.BubblePopped(this);
+        player.BubblePopped();
 
         circleCollider.enabled = false;
 
