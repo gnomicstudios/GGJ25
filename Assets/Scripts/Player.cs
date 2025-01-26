@@ -74,8 +74,8 @@ public class Player : MonoBehaviour
             activeBubble.transform.localScale = new Vector3(activeBubble.initialScale, activeBubble.initialScale, activeBubble.initialScale);
             activeBubbleSpring.connectedBody = activeBubble.GetComponent<Rigidbody2D>();
             activeBubbleSpring.enabled = true;
-            Physics2D.IgnoreCollision(activeBubble.GetComponent<Collider2D>(), this.GetComponent<Collider2D>(), true);
             activeBubble.StartStretch();
+            Physics2D.IgnoreCollision(activeBubble.GetComponent<Collider2D>(), this.GetComponent<Collider2D>(), true);
         }
         else if (activeBubble != null)
         {

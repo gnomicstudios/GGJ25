@@ -118,6 +118,7 @@ MonoBehaviour:
   audioBubbleReleased: {fileID: 8300000, guid: 965de34c1543a6f4983217424e250d98, type: 3}
   audioBubblePop: {fileID: 8300000, guid: 8b2c138b40faa0241a1f8b63735dad80, type: 3}
   audioBubbleStrech: {fileID: 8300000, guid: 49f12631d0e654a4a801f89c242a40df, type: 3}
+  bubbleExplosionPrefab: {fileID: 8044105855862216202, guid: 2b5724ec8fb3cef408cf876d259ea9b5, type: 3}
 --- !u!20 &3307599417325968504
 Camera:
   m_ObjectHideFlags: 0
