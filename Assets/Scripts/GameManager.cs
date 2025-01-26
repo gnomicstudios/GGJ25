@@ -215,6 +215,12 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // TODO: show menu once we have a menu, for now just exit fullscreen
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Screen.fullScreen = false; 
+        }
+
         if (state == GameState.Transitioning) {
             return;
         }

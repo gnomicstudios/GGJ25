@@ -7,6 +7,7 @@ public class HudController : MonoBehaviour
     public TextMeshProUGUI bubblesText;
     public TextMeshProUGUI levelText;
     public RectTransform progressBar;
+    public bool progressBarVertical = true;
     public Color progressColorNormal;
     public Color progressColorHit;
     public Color progressColorGrow;
@@ -43,7 +44,11 @@ public class HudController : MonoBehaviour
             levelText.text = level.ToString();
         }
 
-        progressBar.localScale = new Vector3(game.CoverageProportion, 1.0f, 1.0f);
+        if (progressBarVertical) {
+            progressBar.localScale = new Vector3(1.0f, game.CoverageProportion, 1.0f);
+        } else {
+            progressBar.localScale = new Vector3(game.CoverageProportion, 1.0f, 1.0f);
+        }
 
         if (game.CoverageProportion != coverage) {
             LeanTween.value(coverage, game.CoverageProportion, 1f).setOnUpdate(UpdateProgressBar).setEase(LeanTweenType.easeOutCubic);
@@ -64,7 +69,11 @@ public class HudController : MonoBehaviour
     }
 
     void UpdateProgressBar(float value) {
-        progressBar.localScale = new Vector3(value, 1.0f, 1.0f);
+        if (progressBarVertical) {
+            progressBar.localScale = new Vector3(1.0f, value, 1.0f);
+        } else {
+            progressBar.localScale = new Vector3(value, 1.0f, 1.0f);
+        }
     }
 
     void UpdateProgressColorGrow(float value) {
