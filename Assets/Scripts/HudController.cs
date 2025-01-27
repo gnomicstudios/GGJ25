@@ -1,11 +1,14 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class HudController : MonoBehaviour
 {
     public TextMeshProUGUI bubblesText;
     public TextMeshProUGUI levelText;
+    public TextMeshProUGUI timeTotalText;
+    public TextMeshProUGUI bubblesTotalText;
     public RectTransform progressBar;
     public bool progressBarVertical = true;
     public Color progressColorNormal;
@@ -15,6 +18,7 @@ public class HudController : MonoBehaviour
     public SlideInUI gameStartScreen;
     public SlideInUI levelCompleteScreen;
     public SlideInUI gameOverScreen;
+    public RectTransform endingUI;
 
     private Image progressBarImage;
 
@@ -22,6 +26,8 @@ public class HudController : MonoBehaviour
     private int bubbles = 0;
     private int level = 0;
     private float coverage = 0.0f;
+    private int timeTotalSeconds = 0;
+    private int bubblesTotal = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -41,6 +47,16 @@ public class HudController : MonoBehaviour
         if (game.level != level) {
             level = game.level;
             levelText.text = level.ToString();
+        }
+
+        if ((int)game.TimeTotal != timeTotalSeconds) {
+            timeTotalSeconds = (int)game.TimeTotal;
+            timeTotalText.text = String.Format("{0:D2}:{1:D2}", timeTotalSeconds / 60, timeTotalSeconds % 60);
+        }
+
+        if (game.bubblesTotalUsed != bubblesTotal) {
+            bubblesTotal = game.bubblesTotalUsed;
+            bubblesTotalText.text = bubblesTotal.ToString();
         }
 
         if (progressBarVertical) {

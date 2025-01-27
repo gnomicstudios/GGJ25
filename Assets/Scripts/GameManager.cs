@@ -9,11 +9,12 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     public int initialBubbles = 20;
-    public int initialLives = 5;
 
     public FishController[] enemyPrefabs;
     public GameObject winPrefab;
     public AudioSource music;
+
+
 
     internal GameState state = GameState.Start;
     private float timeAtStateChange = 0.0f;
@@ -22,14 +23,32 @@ public class GameManager : MonoBehaviour
     private List<BubbleController> bubbleObjects = new List<BubbleController>();
     private Transform winScreen;
     
+    // Current number of bubbles
     internal int bubbles;
 
+    // The current level
     public int level = 0;
+
     public float coverageRequired = 20.0f;
 
+    // Total coverage of bubbles in area
     private float coverage = 0.0f;
 
+    // Time the UI screens take to slide in and out
     private float slideTime = 0.8f;
+
+    private float timeAtLevelStart = 0.0f;
+    internal float timeTotalAllLevels = 0.0f;
+    public float TimeTotal {
+        get {
+            if (state == GameState.Playing) {
+                return timeTotalAllLevels + Time.time - timeAtLevelStart;
+            } else {
+                return timeTotalAllLevels;
+            }
+        }
+    }
+    internal int bubblesTotalUsed = 0;
 
     private Player player;
 
@@ -102,6 +121,7 @@ public class GameManager : MonoBehaviour
         level++;
         bubbles = initialBubbles;
         coverage = 0.0f;
+        timeAtLevelStart = Time.time;
 
         // Win level if we've reached the end
         if (level > 9) {
@@ -109,6 +129,7 @@ public class GameManager : MonoBehaviour
             SetState(GameState.GameComplete);
             music.volume = 0.9f;
             player.gameObject.SetActive(false);
+            LeanTween.scale(hud.endingUI, Vector3.one * 2f, 1f).setEaseOutBounce();
             return;
         }
 
@@ -286,6 +307,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("GameManager LevelComplete");
 
+        timeTotalAllLevels += Time.time - timeAtLevelStart;
         SetState(GameState.LevelComplete);
         hud.levelCompleteScreen.SlideIn(slideTime);
     }
@@ -295,6 +317,7 @@ public class GameManager : MonoBehaviour
         bubbleObjects.Add(bubble);
         coverage += bubble.Area;
         bubbles--;
+        bubblesTotalUsed++;
         if (CoverageProportion >= 1f) {
             SetState(GameState.LevelComplete);
             LevelComplete();
@@ -310,6 +333,7 @@ public class GameManager : MonoBehaviour
 
         player.Hit();
         bubbles--;
+        bubblesTotalUsed++;
         if (bubbles <= 0)
         {
             GameOver();
