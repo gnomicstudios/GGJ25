@@ -45,10 +45,19 @@ public class Player : MonoBehaviour
     private void MovePlayer(float moveX, float moveY)
     {
         float velocityX = moveX * speed;
-        float velocityY = Math.Abs(moveY) > Mathf.Epsilon ? moveY * speed : body.linearVelocity.y;
+        float velocityY = moveY * speed;
 
-        // Apply the velocity to the Rigidbody2D
-        body.linearVelocity = new Vector2(velocityX, velocityY);
+        // Apply the velocity to the Rigidbody2D, Y value is only applied if it's non-zero
+        body.linearVelocity = new Vector2(
+            velocityX,
+            Math.Abs(velocityY) > Mathf.Epsilon ? velocityY : body.linearVelocity.y
+        );
+
+        // Apply the velocity to the bubble
+        if (activeBubble != null) {
+            var bubbleBody = activeBubble.GetComponent<Rigidbody2D>();
+            bubbleBody.linearVelocity = new Vector2(velocityX, velocityY) * 1.2f;
+        }
     }
 
     private void FlipForDirection(float moveInput)
@@ -84,8 +93,6 @@ public class Player : MonoBehaviour
             {
                 var scale = activeBubble.transform.localScale.x + activeBubble.growSpeed * Time.deltaTime;
                 activeBubble.transform.localScale = new Vector3(scale, scale, scale);
-                // Connected by spring now
-                //activeBubble.transform.position = transform.position;
             }
             else if (Input.GetKeyUp(KeyCode.Space))
             {
